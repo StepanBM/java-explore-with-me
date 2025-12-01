@@ -34,7 +34,6 @@ public class HitController {
     public List<ViewStatsDto> getStats(@RequestParam String start, @RequestParam String end,
                                        @RequestParam List<String> uris,
                                        @RequestParam(defaultValue = "false") boolean unique) {
-        //log.info("Запрошен поиск вещи");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime startDate = LocalDateTime.parse(start, formatter);
         LocalDateTime endDate = LocalDateTime.parse(end, formatter);
