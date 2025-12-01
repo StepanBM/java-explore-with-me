@@ -7,7 +7,7 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: 12345
     ports:
-      - "5432:5432"
+      - "6541:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     container_name: stats-db
@@ -22,7 +22,9 @@ services:
     ports:
       - "9090:9090"
     environment:
-      SPRING_PROFILES_ACTIVE: "prod"
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-db:5432/statsdb
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=12345
     command: ["java", "-jar", "/app/app.jar"]
     volumes:
       - ./stats-service/target:/app
@@ -34,8 +36,6 @@ services:
     container_name: ewm-server
     ports:
       - "8080:8080"
-    # depends_on:
-    #   - ewm-db
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://ewm-db:5432/ewm
       - SPRING_DATASOURCE_USERNAME=user
@@ -49,7 +49,7 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: 12345
     ports:
-      - "5433:5432"
+      - "5432:5432"
     volumes:
       - ewm_postgres_data:/var/lib/postgresql/data
     container_name: ewm-db
