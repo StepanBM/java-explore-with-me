@@ -26,7 +26,6 @@ public class HitController {
 
     @PostMapping("/hit")
     public HitDto addHit(@Valid @RequestBody NewHitRequest request) {
-        //log.info("Добавляется пользователь");
         return hitService.addHit(request);
     }
 
