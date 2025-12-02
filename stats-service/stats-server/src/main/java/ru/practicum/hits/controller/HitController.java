@@ -1,6 +1,5 @@
 package ru.practicum.hits.controller;
 
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -8,6 +7,8 @@ import ru.practicum.HitDto;
 import ru.practicum.NewHitRequest;
 import ru.practicum.ViewStatsDto;
 import ru.practicum.hits.service.HitService;
+import ru.practicum.validation.CreateValidation;
+
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -25,17 +26,20 @@ public class HitController {
     }
 
     @PostMapping("/hit")
-    public HitDto addHit(@Valid @RequestBody NewHitRequest request) {
+    public HitDto addHit(@Validated(CreateValidation.class) @RequestBody NewHitRequest request) {
+        log.info("Сохраняется информации о том, что к эндпоинту был запрос");
         return hitService.addHit(request);
     }
 
     @GetMapping("/stats")
     public List<ViewStatsDto> getStats(@RequestParam String start, @RequestParam String end,
-                                       @RequestParam List<String> uris,
+                                       @RequestParam(required = false) List<String> uris,
                                        @RequestParam(defaultValue = "false") boolean unique) {
+        log.info("Время начала и конца переводится в определенный формат");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime startDate = LocalDateTime.parse(start, formatter);
         LocalDateTime endDate = LocalDateTime.parse(end, formatter);
+        log.info("Получение статистики по посещениям");
         return hitService.getStats(startDate, endDate, uris, unique);
     }
 }

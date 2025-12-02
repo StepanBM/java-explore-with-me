@@ -4,54 +4,28 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
+import ru.practicum.validation.CreateValidation;
 
 import java.time.LocalDateTime;
 
 @Data
 public class NewHitRequest {
 
-    @NotBlank
+    @NotBlank(message = "Название приложения не может быть пустым", groups = CreateValidation.class)
+    @Length(max = 255, message = "Название приложения не может привышать длину в 100 символов", groups = CreateValidation.class)
     private String app;
 
-    @NotBlank
+    @NotBlank(message = "Url не может быть пустым", groups = CreateValidation.class)
+    @Length(max = 255, message = "Uri не может привышать длину в 100 символов", groups = CreateValidation.class)
     private String uri;
 
-    @NotBlank
+    @NotBlank(message = "Ip адрес не может быть пустым", groups = CreateValidation.class)
+    @Length(max = 255, message = "Ip адрес не может привышать длину в 100 символов", groups = CreateValidation.class)
     private String ip;
 
-    @NotNull
+    @NotNull(message = "Дата и время, когда был совершен запрос не может быть null", groups = CreateValidation.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime timestamp;
 
-    public String getApp() {
-        return app;
-    }
-
-    public void setApp(String app) {
-        this.app = app;
-    }
-
-    public String getUri() {
-        return uri;
-    }
-
-    public void setUri(String uri) {
-        this.uri = uri;
-    }
-
-    public String getIp() {
-        return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
-
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
-    }
 }

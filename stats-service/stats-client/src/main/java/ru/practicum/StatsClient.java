@@ -37,11 +37,11 @@ public class StatsClient {
 
     public List<ViewStatsDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
         if (start == null || end == null) {
-            throw new IllegalArgumentException("Даты начала и окончания должны быть заданы");
+            throw new IllegalArgumentException("Даты начала и окончания должны быть");
         }
 
         if (end.isBefore(start)) {
-            throw new IllegalArgumentException("Даты окончания должна быть позже даты начала");
+            throw new IllegalArgumentException("Дата окончания должна быть позже даты начала");
         }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

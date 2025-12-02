@@ -31,26 +31,31 @@ public class HitServiceImpl implements HitService {
     @Override
     @Transactional
     public HitDto addHit(NewHitRequest request) {
-       // log.debug("Начинается добавление пользователя по запросу {}", request);
+        log.debug("Начинается сохранение информации о том, что к эндпоинту был запрос по запросу {}", request);
         Hit hit = mapToHit(request);
-       // log.debug("Запрос на добавление пользователя конвертирован в объект класса User {}", hit);
+        log.debug("Запрос на сохранение информации о том, что к эндпоинту был запрос по запросу конвертирован в объект класса Hit {}", hit);
         hit = hitRepository.save(hit);
-       // log.debug("Добавлен пользователь {}", hit);
+        log.debug("Сохранена информации о том, что к эндпоинту был запрос {}", hit);
        return mapToHitDto(hit);
     }
 
     @Override
     public List<ViewStatsDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique) {
+        log.debug("Начинается получение статистики по посещениям");
         if (unique) {
             if (uris != null && !uris.isEmpty()) {
-                return hitRepository.findUniqueHitsForUris(start, end, uris);
+                log.debug("Получение уникальных хитов по заданному Uri при unique=true");
+                return hitRepository.findUniqueHitsUris(start, end, uris);
             } else {
+                log.debug("Получение всех уникальных хитов при unique=true");
                 return hitRepository.findUniqueHits(start, end);
             }
         } else {
             if (uris != null && !uris.isEmpty()) {
-                return hitRepository.findHitsForUris(start, end, uris);
+                log.debug("Получение уникальных хитов по заданному Uri при unique=false");
+                return hitRepository.findHitsUris(start, end, uris);
             } else {
+                log.debug("Получение всех уникальных хитов при unique=false");
                 return hitRepository.findHits(start, end);
             }
         }
