@@ -74,17 +74,17 @@ public class EventServiceImpl implements EventService {
                 });
 
         // Проверка даты события, она должна быть начата минимум через 2 часа
-        if (request.getEventDate().isBefore(LocalDateTime.now().plusHours(2))) {
-            log.warn("Ошибка дата начала события должна быть не ранее чем за 2 часа от текущего момента");
-            throw new ErrorEventDateException("Дата начала события должна быть не ранее чем за 2 часа от текущего момента");
-        }
+//        if (request.getEventDate().isBefore(LocalDateTime.now().plusHours(2))) {
+//            log.warn("Ошибка дата начала события должна быть не ранее чем за 2 часа от текущего момента");
+//            throw new ErrorEventDateException("Дата начала события должна быть не ранее чем за 2 часа от текущего момента");
+//        }
 
         Event event = mapToEvent(request, category, user);
         event.setState(EventState.PENDING);
         event = eventRepository.save(event);
         log.debug("Создано новое событие: id={}, title={}, user={}", event.getId(), event.getTitle(), userId);
 
-        return EventMapper.mapToEventDto(event);
+        return mapToEventDto(event);
     }
 
     @Override

@@ -3,6 +3,7 @@ package ru.practicum.event.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import ru.practicum.exceptions.UpdateValidation;
@@ -30,7 +31,7 @@ public class UpdateEventUserRequest {
 
     private Boolean paid;
 
-    @Positive(message = "Лимит не может быть отрицательным", groups = UpdateValidation.class)
+    @PositiveOrZero(message = "Лимит не может быть отрицательным", groups = UpdateValidation.class)
     private Integer participantLimit;
 
     private Boolean requestModeration;
