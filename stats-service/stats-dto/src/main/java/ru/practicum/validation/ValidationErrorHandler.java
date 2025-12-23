@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 @Slf4j
-public class ErrorHandler {
+public class ValidationErrorHandler {
 
     @ExceptionHandler({ValidationException.class, MethodArgumentNotValidException.class, ConstraintViolationException.class,
-            HttpMessageNotReadableException.class, org.springframework.web.bind.MissingRequestHeaderException.class})
+            HttpMessageNotReadableException.class, MissingRequestHeaderException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleValidation(final Exception e) {
          log.debug("Ошибка валидации. {}", e.getMessage());
