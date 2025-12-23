@@ -22,7 +22,6 @@ public class UserController {
         this.userService = userService;
     }
 
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto addUser(@Validated(CreateValidation.class) @RequestBody NewUserRequest request) {
@@ -45,4 +44,5 @@ public class UserController {
         userService.deleteUser(userId);
         log.info("Пользователь с  id={} удален", userId);
     }
+
 }

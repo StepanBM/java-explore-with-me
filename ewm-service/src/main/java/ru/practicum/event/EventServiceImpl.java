@@ -448,10 +448,10 @@ public class EventServiceImpl implements EventService {
 
             for (ViewStatsDto stat : stats) {
 
-                    // Извлекаем id события из uri (например: "/events/123" -> 123)
-                    String uri = stat.getUri();
-                    Long eventId = Long.parseLong(uri.substring("/events/".length()));
-                    eventViews.put(eventId, stat.getHits());
+                // Извлекаем id события из uri (например: "/events/123" -> 123)
+                String uri = stat.getUri();
+                Long eventId = Long.parseLong(uri.substring("/events/".length()));
+                eventViews.put(eventId, stat.getHits());
 
             }
             log.debug("Получены просмотры для {} из {} событий", eventViews.size(), events.size());
@@ -486,35 +486,35 @@ public class EventServiceImpl implements EventService {
     // Получение количества просмотров событий
     private Long getEventView(Long eventId) {
 
-            log.debug("Получение количества просмотров для события ID={}", eventId);
+        log.debug("Получение количества просмотров для события ID={}", eventId);
 
-            LocalDateTime appCreationDate = LocalDateTime.parse("2025-11-30 12:00:00",
-                    DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        LocalDateTime appCreationDate = LocalDateTime.parse("2025-11-30 12:00:00",
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-            // Формируем uri события для поиска в статистике
-            List<String> uris = List.of("/events/" + eventId);
-            log.debug("Параметры запроса статистики: start={}, uris={}", appCreationDate, uris);
+        // Формируем uri события для поиска в статистике
+        List<String> uris = List.of("/events/" + eventId);
+        log.debug("Параметры запроса статистики: start={}, uris={}", appCreationDate, uris);
 
-            try {
-                // Запрашиваем статистику - учитываем только уникальные ip
-                List<ViewStatsDto> stats = statsClient.getStats(
-                        appCreationDate,
-                        LocalDateTime.now(),
-                        uris,
-                        true
-                );
+        try {
+            // Запрашиваем статистику - учитываем только уникальные ip
+            List<ViewStatsDto> stats = statsClient.getStats(
+                    appCreationDate,
+                    LocalDateTime.now(),
+                    uris,
+                    true
+            );
 
-                log.debug("Получена статистика: {}", stats);
+            log.debug("Получена статистика: {}", stats);
 
-                Long views = stats.isEmpty() ? 0L : stats.get(0).getHits();
-                log.debug("Количество просмотров для события ID={}: {}", eventId, views);
+            Long views = stats.isEmpty() ? 0L : stats.get(0).getHits();
+            log.debug("Количество просмотров для события ID={}: {}", eventId, views);
 
-                return views;
-            } catch (Exception e) {
-                log.warn("Ошибка в statsClient.getStats() для события ID={}: {}", eventId, e.getMessage(), e);
+            return views;
+        } catch (Exception e) {
+            log.warn("Ошибка в statsClient.getStats() для события ID={}: {}", eventId, e.getMessage(), e);
 
-                return 0L;
-            }
+            return 0L;
+        }
     }
 
 }

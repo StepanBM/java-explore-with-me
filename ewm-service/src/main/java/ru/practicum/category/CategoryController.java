@@ -33,7 +33,7 @@ public class CategoryController {
 
     @GetMapping("/categories")
     public List<CategoryDto> findAllCategory(@RequestParam(name = "from", defaultValue = "0") Integer from,
-                                      @RequestParam(name = "size", defaultValue = "10") Integer size) {
+                                             @RequestParam(name = "size", defaultValue = "10") Integer size) {
         log.info("Запрос на получение всех категорий: from={}, size={}", from, size);
         return categoryService.findAllCategory(from, size);
     }

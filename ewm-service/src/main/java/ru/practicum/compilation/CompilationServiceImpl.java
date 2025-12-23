@@ -30,7 +30,7 @@ public class CompilationServiceImpl implements CompilationService {
 
     @Autowired
     public CompilationServiceImpl(CompilationRepository compilationRepository,
-                            EventRepository eventRepository) {
+                                  EventRepository eventRepository) {
         this.compilationRepository = compilationRepository;
         this.eventRepository = eventRepository;
     }
@@ -79,9 +79,9 @@ public class CompilationServiceImpl implements CompilationService {
     public CompilationDto getCompilationId(Long compId) {
         Compilation compilation = compilationRepository.findById(compId)
                 .orElseThrow(() -> {
-            log.warn("Ошибка при поиске подборки. Подборка с id={} не найден", compId);
-            return new EntityNotFoundException("Подборка id=" + compId + " не найдена");
-        });
+                    log.warn("Ошибка при поиске подборки. Подборка с id={} не найден", compId);
+                    return new EntityNotFoundException("Подборка id=" + compId + " не найдена");
+                });
 
         return mapToCompilationDto(compilation);
     }
@@ -114,4 +114,5 @@ public class CompilationServiceImpl implements CompilationService {
         compilationRepository.deleteById(comId);
         log.info("Подборка {} успешно удалена.", comId);
     }
+
 }

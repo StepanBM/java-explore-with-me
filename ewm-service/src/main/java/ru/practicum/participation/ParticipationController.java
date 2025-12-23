@@ -46,7 +46,7 @@ public class ParticipationController {
 
     @PatchMapping("/users/{userId}/requests/{requestId}/cancel")
     public ParticipationDto updateParticipationCancel(@PathVariable Long userId,
-                                                       @PathVariable Long requestId) {
+                                                      @PathVariable Long requestId) {
         log.info("Запрос на отмену заявки: пользователь id={}, заявка id={}", userId, requestId);
         return participationService.updateParticipationCancel(userId, requestId);
     }
