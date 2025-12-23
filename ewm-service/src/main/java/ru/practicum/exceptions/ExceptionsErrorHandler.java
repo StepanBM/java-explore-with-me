@@ -28,7 +28,7 @@ public class ExceptionsErrorHandler {
     }
 
     @ExceptionHandler({ValidationException.class, MethodArgumentNotValidException.class, ConstraintViolationException.class,
-            HttpMessageNotReadableException.class, MissingRequestHeaderException.class, ErrorEventDateException.class})
+            HttpMessageNotReadableException.class, MissingRequestHeaderException.class, ErrorEventDateException.class, MissingServletRequestParameterException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleValidation(final Exception e) {
         log.debug("Ошибка валидации. {}", e.getMessage());
@@ -48,6 +48,9 @@ public class ExceptionsErrorHandler {
         } else if (e.getClass() == ErrorEventDateException.class) {
             log.debug("Ошибка, в дате события . {}", e.getMessage());
             return new ErrorResponse("Некорректное значение даты", "Ошибка события");
+        } else if (e.getClass() == MissingServletRequestParameterException.class) {
+            log.debug("Ошибка, отсутствует обязательный параметр запроса. {}", e.getMessage());
+            return new ErrorResponse("Отсутствует обязательный параметр", "Параметр обязателен");
         } else {
             return new ErrorResponse(
                     "Некорректное значение параметра " + ((MethodArgumentNotValidException) e).getParameter(),

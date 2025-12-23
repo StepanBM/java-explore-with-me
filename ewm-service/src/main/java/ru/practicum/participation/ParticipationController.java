@@ -1,10 +1,11 @@
 package ru.practicum.participation;
 
-import jakarta.validation.constraints.NotNull;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.exceptions.ValidationException;
 import ru.practicum.participation.dto.ParticipationDto;
 import ru.practicum.participation.dto.ParticipationStatusRequest;
 import ru.practicum.participation.dto.ParticipationStatusResult;
@@ -27,7 +28,11 @@ public class ParticipationController {
     @PostMapping("/users/{userId}/requests")
     @ResponseStatus(HttpStatus.CREATED)
     public ParticipationDto addParticipation(@PathVariable Long userId,
-                                             @RequestParam @NotNull Long eventId) {
+                                             @RequestParam(required = false) Long eventId) {
+        if (eventId == null) {
+            log.warn("Отсутствует обязательный параметр eventId");
+            throw new ValidationException("Параметр eventId обязателен", "Обязательный параметр");
+        }
         log.info("Запрос на создание заявки на участие: пользователь id={}, событие id={}", userId, eventId);
         return participationService.addParticipation(userId, eventId);
     }

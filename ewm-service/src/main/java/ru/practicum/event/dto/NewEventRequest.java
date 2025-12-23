@@ -24,6 +24,7 @@ public class NewEventRequest {
 
     @NotNull(message = "Дата и время на которые намечено событие не может быть пустым", groups = CreateValidation.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Future(message = "Дата события должна быть в будущем", groups = CreateValidation.class)
     private LocalDateTime eventDate;
 
     @NotNull(message = "Локация не может быть пустой", groups = CreateValidation.class)
@@ -32,7 +33,7 @@ public class NewEventRequest {
     private boolean paid = false;
 
     @PositiveOrZero(message = "Лимит не может быть отрицательным", groups = CreateValidation.class)
-    private int participantLimit;
+    private Integer participantLimit;
 
     private Boolean requestModeration = true;
 
