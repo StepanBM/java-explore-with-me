@@ -1,6 +1,7 @@
 package ru.practicum.hits.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.HitDto;
@@ -26,6 +27,7 @@ public class HitController {
     }
 
     @PostMapping("/hit")
+    @ResponseStatus(HttpStatus.CREATED)
     public HitDto addHit(@Validated(CreateValidation.class) @RequestBody NewHitRequest request) {
         log.info("Сохраняется информации о том, что к эндпоинту был запрос");
         return hitService.addHit(request);

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ValidationErrorHandler {
 
     @ExceptionHandler({ValidationException.class, MethodArgumentNotValidException.class, ConstraintViolationException.class,
-            HttpMessageNotReadableException.class, MissingRequestHeaderException.class})
+            HttpMessageNotReadableException.class, MissingRequestHeaderException.class, IllegalArgumentException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleValidation(final Exception e) {
          log.debug("Ошибка валидации. {}", e.getMessage());
@@ -31,6 +31,9 @@ public class ValidationErrorHandler {
         } else if (e.getClass() == ConstraintViolationException.class) {
             log.debug("Ошибка, некорректное значение. {}", e.getMessage());
             return new ErrorResponse("Некорректное значение", "Ошибка валидации");
+        } else if (e.getClass() == IllegalArgumentException.class) {
+            log.debug("Ошибка, некорректное значение даты. {}", e.getMessage());
+            return new ErrorResponse("Некорректное значение даты начало или конца", "Ошибка валидации");
         } else {
             return new ErrorResponse(
                     "Некорректное значение параметра " + ((MethodArgumentNotValidException) e).getParameter(),
