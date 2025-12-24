@@ -1,10 +1,14 @@
 package ru.practicum.participation.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ParticipationStatusResult {
 
     // Список подтвержденных заявок
@@ -13,6 +17,4 @@ public class ParticipationStatusResult {
     // Список отклоненных заявок
     private List<ParticipationDto> rejectedRequests;
 
-    public ParticipationStatusResult(List<ParticipationDto> list, List<ParticipationDto> list1) {
-    }
 }
