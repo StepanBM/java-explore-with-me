@@ -73,12 +73,6 @@ public class EventServiceImpl implements EventService {
                     return new NotFoundException("Категория с id=" + request.getCategory() + " не найдена");
                 });
 
-        // Проверка даты события, она должна быть начата минимум через 2 часа
-//        if (request.getEventDate().isBefore(LocalDateTime.now().plusHours(2))) {
-//            log.warn("Ошибка дата начала события должна быть не ранее чем за 2 часа от текущего момента");
-//            throw new ErrorEventDateException("Дата начала события должна быть не ранее чем за 2 часа от текущего момента");
-//        }
-
         Event event = mapToEvent(request, category, user);
         event.setState(EventState.PENDING);
         event = eventRepository.save(event);
@@ -148,13 +142,6 @@ public class EventServiceImpl implements EventService {
             throw new ConflictErrorException("Запрещено изменять опубликованное уже событие");
         }
 
-        // Проверка даты события, она должна быть начата минимум через 2 часа
-//        LocalDateTime latestUpdateTime = event.getEventDate().minusHours(2);
-//        if (LocalDateTime.now().isAfter(latestUpdateTime)) {
-//            log.warn("Ошибка дата начала события должна быть не ранее чем за 2 часа от текущего момента");
-//            throw new ErrorEventDateException("Дата начала события должна быть не ранее чем за 2 часа от текущего момента");
-//        }
-
         // Обновление категорию, если указана в запросе
         if (request.getCategory() != null) {
             Category category = categoryRepository.findById(request.getCategory())
@@ -169,11 +156,6 @@ public class EventServiceImpl implements EventService {
 
         // Обновляем дату события
         if (request.getEventDate() != null) {
-            LocalDateTime minAllowedDate = LocalDateTime.now().plusHours(2);
-//            if (request.getEventDate().isBefore(minAllowedDate)) {
-//                log.warn("Ошибка дата начала события должна быть не ранее чем за 2 часа от текущего момента");
-//                throw new ErrorEventDateException("Дата начала события должна быть не ранее чем за 2 часа от текущего момента");
-//            }
             event.setEventDate(request.getEventDate());
         }
 
