@@ -16,7 +16,6 @@ import ru.practicum.exceptions.CreateValidation;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Validated
 @Slf4j
 @RestController
 @RequestMapping

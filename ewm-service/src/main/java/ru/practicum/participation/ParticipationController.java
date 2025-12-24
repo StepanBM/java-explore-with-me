@@ -12,7 +12,6 @@ import ru.practicum.participation.dto.ParticipationStatusResult;
 
 import java.util.List;
 
-@Validated
 @Slf4j
 @RestController
 @RequestMapping

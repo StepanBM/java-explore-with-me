@@ -10,7 +10,6 @@ import ru.practicum.user.dto.UserDto;
 
 import java.util.List;
 
-@Validated
 @Slf4j
 @RestController
 @RequestMapping("/admin/users")

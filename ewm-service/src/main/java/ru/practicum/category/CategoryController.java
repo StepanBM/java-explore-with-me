@@ -12,7 +12,6 @@ import ru.practicum.exceptions.UpdateValidation;
 
 import java.util.List;
 
-@Validated
 @Slf4j
 @RestController
 @RequestMapping
