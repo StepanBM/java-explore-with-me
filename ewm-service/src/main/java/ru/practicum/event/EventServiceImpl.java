@@ -149,11 +149,11 @@ public class EventServiceImpl implements EventService {
         }
 
         // Проверка даты события, она должна быть начата минимум через 2 часа
-        LocalDateTime latestUpdateTime = event.getEventDate().minusHours(2);
-        if (LocalDateTime.now().isAfter(latestUpdateTime)) {
-            log.warn("Ошибка дата начала события должна быть не ранее чем за 2 часа от текущего момента");
-            throw new ErrorEventDateException("Дата начала события должна быть не ранее чем за 2 часа от текущего момента");
-        }
+//        LocalDateTime latestUpdateTime = event.getEventDate().minusHours(2);
+//        if (LocalDateTime.now().isAfter(latestUpdateTime)) {
+//            log.warn("Ошибка дата начала события должна быть не ранее чем за 2 часа от текущего момента");
+//            throw new ErrorEventDateException("Дата начала события должна быть не ранее чем за 2 часа от текущего момента");
+//        }
 
         // Обновление категорию, если указана в запросе
         if (request.getCategory() != null) {
@@ -170,10 +170,10 @@ public class EventServiceImpl implements EventService {
         // Обновляем дату события
         if (request.getEventDate() != null) {
             LocalDateTime minAllowedDate = LocalDateTime.now().plusHours(2);
-            if (request.getEventDate().isBefore(minAllowedDate)) {
-                log.warn("Ошибка дата начала события должна быть не ранее чем за 2 часа от текущего момента");
-                throw new ErrorEventDateException("Дата начала события должна быть не ранее чем за 2 часа от текущего момента");
-            }
+//            if (request.getEventDate().isBefore(minAllowedDate)) {
+//                log.warn("Ошибка дата начала события должна быть не ранее чем за 2 часа от текущего момента");
+//                throw new ErrorEventDateException("Дата начала события должна быть не ранее чем за 2 часа от текущего момента");
+//            }
             event.setEventDate(request.getEventDate());
         }
 
