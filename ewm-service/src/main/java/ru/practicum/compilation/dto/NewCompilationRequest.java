@@ -19,5 +19,5 @@ public class NewCompilationRequest {
     private Boolean pinned = false;
 
     // Список идентификаторов событий входящих в подборку
-    List<Long> events;
+    private List<Long> events;
 }

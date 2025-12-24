@@ -17,7 +17,7 @@ public class UpdateCompilationRequest {
     private Boolean pinned;
 
     // Список идентификаторов событий входящих в подборку
-    List<Long> events;
+    private List<Long> events;
 
     public boolean hasTittle() {
         return !(title == null || title.isBlank());

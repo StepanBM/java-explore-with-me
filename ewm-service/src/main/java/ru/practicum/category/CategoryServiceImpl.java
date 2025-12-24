@@ -109,6 +109,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional
     public void deleteCategory(Long catId) {
 
         if (!eventRepository.findByCategoryId(catId).isEmpty()) {

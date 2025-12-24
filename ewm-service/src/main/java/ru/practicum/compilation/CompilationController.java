@@ -12,7 +12,6 @@ import ru.practicum.exceptions.UpdateValidation;
 
 import java.util.List;
 
-@Validated
 @Slf4j
 @RestController
 @RequestMapping()
@@ -39,8 +38,8 @@ public class CompilationController {
 
     @GetMapping("/compilations")
     public List<CompilationDto> getCompilations(@RequestParam(required = false) Boolean pinned,
-                                                @RequestParam(required = false, defaultValue = "0") int from,
-                                                @RequestParam(required = false, defaultValue = "10") int size) {
+                                                @RequestParam(defaultValue = "0") int from,
+                                                @RequestParam(defaultValue = "10") int size) {
         log.info("Запрос на получение подборок: pinned={}, from={}, size={}", pinned, from, size);
         return compilationService.getCompilations(pinned, from, size);
     }
