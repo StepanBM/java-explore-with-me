@@ -7,9 +7,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -27,15 +26,21 @@ public class StatsClient {
     }
 
     public void addHit(NewHitRequest request) {
-
-        restClient.post()
-                .uri("/hit")
-                .body(request)
-                .retrieve()
-                .toBodilessEntity();
+        try {
+            restClient.post()
+                    .uri("/hit")
+                    .body(request) // Spring сам сериализует в JSON
+                    .retrieve()
+                    .toBodilessEntity();
+        } catch (Exception e) {
+            // Для отладки: логируем что отправляем
+           // log.error("Failed to send hit: {}", request);
+            throw e;
+        }
     }
 
-    public List<ViewStatsDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
+    public List<ViewStatsDto> getStats(LocalDateTime start, LocalDateTime end,
+                                       List<String> uris, Boolean unique) {
         if (start == null || end == null) {
             throw new IllegalArgumentException("Даты начала и окончания должны быть");
         }
@@ -44,26 +49,33 @@ public class StatsClient {
             throw new IllegalArgumentException("Дата окончания должна быть позже даты начала");
         }
 
+        // 1. Форматируем дату БЕЗ ПРОБЕЛА (используем стандартный ISO формат)
+        // Сервис статистики ожидает формат "yyyy-MM-dd HH:mm:ss" но пробел может вызывать проблемы
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String startStr = URLEncoder.encode(start.format(formatter), StandardCharsets.UTF_8);
-        String endStr = URLEncoder.encode(end.format(formatter), StandardCharsets.UTF_8);
+        String startStr = start.format(formatter);
+        String endStr = end.format(formatter);
 
-        StringBuilder uriBuilder = new StringBuilder("/stats?");
-        uriBuilder.append("start=").append(startStr);
-        uriBuilder.append("&end=").append(endStr);
+        // 2. НЕ кодируем строки! RestClient сам закодирует параметры
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString("/stats")
+                .queryParam("start", startStr)
+                .queryParam("end", endStr);
 
         if (uris != null && !uris.isEmpty()) {
-            String urisParam = String.join(",", uris);
-            urisParam = URLEncoder.encode(urisParam, StandardCharsets.UTF_8);
-            uriBuilder.append("&uris=").append(urisParam);
+            // Добавляем каждый URI как отдельный параметр
+            for (String uri : uris) {
+                uriBuilder.queryParam("uris", uri);
+            }
         }
 
         if (unique != null) {
-            uriBuilder.append("&unique=").append(unique);
+            uriBuilder.queryParam("unique", unique);
         }
 
+        // 3. Получаем URI с правильным кодированием
+        String uri = uriBuilder.build().toUriString();
+
         return restClient.get()
-                .uri(uriBuilder.toString())
+                .uri(uri)
                 .retrieve()
                 .body(new ParameterizedTypeReference<List<ViewStatsDto>>() {});
     }

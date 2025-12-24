@@ -42,6 +42,23 @@ public class HitServiceImpl implements HitService {
     @Override
     public List<ViewStatsDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique) {
         log.debug("Начинается получение статистики по посещениям");
+
+        if (start == null) {
+            log.warn("Начальная дата не может быть null");
+            throw new IllegalArgumentException("Начальная дата не может быть null");
+        }
+
+        if (end == null) {
+            log.warn("Конечная дата не может быть null");
+            throw new IllegalArgumentException("Конечная дата не может быть null");
+        }
+
+        // Начальная дата не может быть раньше конечной
+        if (start.isAfter(end)) {
+            log.warn("Начальная дата {} не может быть позже конечной даты {}", start, end);
+            throw new IllegalArgumentException("Начальная дата не может быть позже конечной даты");
+        }
+
         if (unique) {
             if (uris != null && !uris.isEmpty()) {
                 log.debug("Получение уникальных хитов по заданному Uri при unique=true");
