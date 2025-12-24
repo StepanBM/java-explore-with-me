@@ -3,8 +3,8 @@ package ru.practicum.event.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.PositiveOrZero;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 import ru.practicum.exceptions.UpdateValidation;
 import ru.practicum.location.dto.LocationDto;
 import ru.practicum.state.EventStateAction;
@@ -14,12 +14,12 @@ import java.time.LocalDateTime;
 @Data
 public class UpdateEventUserRequest {
 
-    @Size(min = 20, max = 2000, message = "Краткое описание не может быть длиннее 2000 символов", groups = UpdateValidation.class)
+    @Length(min = 20, max = 2000, message = "Краткое описание не может быть длиннее 2000 символов", groups = UpdateValidation.class)
     private String annotation;
 
     private Long category;
 
-    @Size(min = 20, max = 7000, message = "Полное описание события не может быть длиннее 7000 символов", groups = UpdateValidation.class)
+    @Length(min = 20, max = 7000, message = "Полное описание события не может быть длиннее 7000 символов", groups = UpdateValidation.class)
     private String description;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -37,7 +37,7 @@ public class UpdateEventUserRequest {
 
     private EventStateAction stateAction;
 
-    @Size(min = 3, max = 120, message = "Заголовок не может быть длиннее 120 символов", groups = UpdateValidation.class)
+    @Length(min = 3, max = 120, message = "Заголовок не может быть длиннее 120 символов", groups = UpdateValidation.class)
     private String title;
 
     public boolean hasTittle() {

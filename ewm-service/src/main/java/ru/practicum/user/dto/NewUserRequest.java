@@ -2,7 +2,6 @@ package ru.practicum.user.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 import ru.practicum.exceptions.CreateValidation;
@@ -16,7 +15,7 @@ public class NewUserRequest {
     private String email;
 
     @NotBlank(message = "Имя не может быть пустым", groups = CreateValidation.class)
-    @Size(min = 2, max = 250, message = "Имя должно содержать от 2 до 250 символов", groups = CreateValidation.class)
+    @Length(min = 2, max = 250, message = "Имя должно содержать от 2 до 250 символов", groups = CreateValidation.class)
     private String name;
 
     public String getEmail() {
