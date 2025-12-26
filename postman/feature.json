@@ -396,7 +396,7 @@
 									"variable": [
 										{
 											"key": "userId",
-											"value": "{{usId}}"
+											"value": "1"
 										}
 									]
 								}
@@ -476,7 +476,7 @@
 									"variable": [
 										{
 											"key": "userId",
-											"value": "{{usId}}"
+											"value": "2"
 										}
 									]
 								}
@@ -556,7 +556,7 @@
 									"variable": [
 										{
 											"key": "userId",
-											"value": "{{usId}}"
+											"value": "3"
 										}
 									]
 								}
@@ -652,7 +652,7 @@
 									"variable": [
 										{
 											"key": "eventId",
-											"value": "{{evId}}"
+											"value": "1"
 										}
 									]
 								}
@@ -748,7 +748,7 @@
 									"variable": [
 										{
 											"key": "eventId",
-											"value": "{{evId}}"
+											"value": "3"
 										}
 									]
 								}
