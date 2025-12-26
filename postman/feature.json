@@ -396,7 +396,7 @@
 									"variable": [
 										{
 											"key": "userId",
-											"value": "1"
+											"value": "{{usId}}"
 										}
 									]
 								}
@@ -476,7 +476,7 @@
 									"variable": [
 										{
 											"key": "userId",
-											"value": "2"
+											"value": "{{usId}}"
 										}
 									]
 								}
@@ -556,87 +556,7 @@
 									"variable": [
 										{
 											"key": "userId",
-											"value": "3"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Добавление события 4",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Ответ должен содержать код статуса 201 и данные в формате json\", function () {",
-											"    pm.response.to.have.status(201);  ",
-											"    pm.response.to.be.withBody;",
-											"    pm.response.to.be.json;",
-											"});",
-											"",
-											"const target = pm.response.json();",
-											"",
-											"pm.test(\"Событие должно содержать поля: id, title, annotation, category, paid, eventDate, initiator, description, participantLimit, state, createdOn, location, requestModeration\", function () {",
-											"pm.expect(target).to.have.property('id');",
-											"pm.expect(target).to.have.property('title');",
-											"pm.expect(target).to.have.property('annotation');",
-											"pm.expect(target).to.have.property('category');",
-											"pm.expect(target).to.have.property('paid');",
-											"pm.expect(target).to.have.property('eventDate');",
-											"pm.expect(target).to.have.property('initiator');",
-											"pm.expect(target).to.have.property('description');",
-											"pm.expect(target).to.have.property('participantLimit');",
-											"pm.expect(target).to.have.property('state');",
-											"pm.expect(target).to.have.property('createdOn');",
-											"pm.expect(target).to.have.property('location');",
-											"pm.expect(target).to.have.property('requestModeration');",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {},
-										"requests": {}
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"annotation\": \"Четвертое тестовое событие.\",\n    \"category\": 1,\n    \"description\": \"Это событие останется в состоянии PENDING для тестирования ограничений.\",\n    \"eventDate\": \"2026-09-15 18:00:00\",\n    \"location\": {\n        \"lat\": 55.7512,\n        \"lon\": 37.6184\n    },\n    \"paid\": true,\n    \"participantLimit\": 70,\n    \"requestModeration\": false,\n    \"title\": \"Неопубликованное событие\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseURL}}/users/:userId/events",
-									"host": [
-										"{{baseURL}}"
-									],
-									"path": [
-										"users",
-										":userId",
-										"events"
-									],
-									"variable": [
-										{
-											"key": "userId",
-											"value": "3"
+											"value": "{{usId}}"
 										}
 									]
 								}
@@ -732,103 +652,7 @@
 									"variable": [
 										{
 											"key": "eventId",
-											"value": "1"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Публикация события 2",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Ответ должен содержать код статуса 200 и данные в формате json\", function () {",
-											"    pm.response.to.be.ok;    ",
-											"    pm.response.to.be.withBody;",
-											"    pm.response.to.be.json;",
-											"});",
-											"",
-											"const target = pm.response.json();",
-											"",
-											"pm.test(\"Событие должно иметь статус PUBLISHED\", function () {",
-											"    pm.expect(target.state).to.equal('PUBLISHED');",
-											"});",
-											"",
-											"pm.test(\"Событие должно содержать поля: id, title, annotation, category, paid, eventDate, initiator, description, participantLimit, state, createdOn, publishedOn, location, requestModeration\", function () {",
-											"pm.expect(target).to.have.property('id');",
-											"pm.expect(target).to.have.property('title');",
-											"pm.expect(target).to.have.property('annotation');",
-											"pm.expect(target).to.have.property('category');",
-											"pm.expect(target).to.have.property('paid');",
-											"pm.expect(target).to.have.property('eventDate');",
-											"pm.expect(target).to.have.property('initiator');",
-											"pm.expect(target).to.have.property('description');",
-											"pm.expect(target).to.have.property('participantLimit');",
-											"pm.expect(target).to.have.property('state');",
-											"pm.expect(target).to.have.property('createdOn');",
-											"pm.expect(target).to.have.property('publishedOn');",
-											"pm.expect(target).to.have.property('location');",
-											"pm.expect(target).to.have.property('requestModeration');",
-											"});"
-										],
-										"type": "text/javascript",
-										"packages": {},
-										"requests": {}
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript",
-										"packages": {},
-										"requests": {}
-									}
-								}
-							],
-							"request": {
-								"method": "PATCH",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"stateAction\": \"PUBLISH_EVENT\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseURL}}/admin/events/:eventId",
-									"host": [
-										"{{baseURL}}"
-									],
-									"path": [
-										"admin",
-										"events",
-										":eventId"
-									],
-									"variable": [
-										{
-											"key": "eventId",
-											"value": "2"
+											"value": "{{evId}}"
 										}
 									]
 								}
@@ -924,7 +748,7 @@
 									"variable": [
 										{
 											"key": "eventId",
-											"value": "3"
+											"value": "{{evId}}"
 										}
 									]
 								}
@@ -1872,118 +1696,6 @@
 								{
 									"key": "commentId",
 									"value": "6"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Попытка вывода комментариев по несуществующему событию",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Ответ должен содержать код статуса 404 и данные в формате json\", function () {",
-									"    pm.response.to.have.status(404);",
-									"    pm.response.to.be.withBody;",
-									"    pm.response.to.be.json;",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {},
-								"requests": {}
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/events/:eventId/comments",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"events",
-								":eventId",
-								"comments"
-							],
-							"variable": [
-								{
-									"key": "eventId",
-									"value": "5"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Попытка вывода комментариев несуществующего пользователя",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Ответ должен содержать код статуса 404 и данные в формате json\", function () {",
-									"    pm.response.to.have.status(404);",
-									"    pm.response.to.be.withBody;",
-									"    pm.response.to.be.json;",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {},
-								"requests": {}
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/users/:userId/comments",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"users",
-								":userId",
-								"comments"
-							],
-							"variable": [
-								{
-									"key": "userId",
-									"value": "4"
 								}
 							]
 						}
