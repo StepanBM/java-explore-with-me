@@ -1,5 +1,6 @@
 package ru.practicum.comment;
 
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -47,6 +48,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public CommentDto addComment(Long userId, Long eventId, NewCommentRequest request) {
 
         User user = userRepository.findById(userId)
@@ -167,6 +169,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public CommentDto updateCommentUser(Long userId, Long commentId, UpdateCommentRequest request) {
 
         User user = userRepository.findById(userId)
@@ -195,6 +198,8 @@ public class CommentServiceImpl implements CommentService {
         return mapToCommentDto(updatedComment);
     }
 
+    @Override
+    @Transactional
     public CommentDto updateCommentAdmin(Long commentId, UpdateCommentRequest request) {
 
         Comment comment = commentRepository.findById(commentId)
@@ -212,6 +217,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public void deleteCommentUser(Long userId, Long commentId) {
 
         User user = userRepository.findById(userId)
@@ -237,6 +243,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public void deleteCommentAdmin(Long commentId) {
 
         Comment comment = commentRepository.findById(commentId)
